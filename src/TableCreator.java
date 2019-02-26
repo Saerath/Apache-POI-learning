@@ -3,9 +3,6 @@ import org.apache.poi.ss.usermodel.*;
 
 public class TableCreator {
 	public Workbook createTable(int numRows) {
-
-		int numColumns = EnumColumns.values().length;
-
 		Workbook book = new HSSFWorkbook();
 
 		createHeader(book);
