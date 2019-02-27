@@ -1,28 +1,30 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 
 public class TableCreator {
-	public Workbook createTable(int numRows) {
-		Workbook book = new HSSFWorkbook();
+	
+	final String RESOURCES_DIR = "C:/Users/Saerath/workspace/ExcelExercise/src/resources/";
 
-		createHeader(book);
+	Map<String, ArrayList<String>> listMap = new HashMap<String, ArrayList<String>>();
+
+	public Workbook createTable(int numRows) {
+
+		Workbook book = new HSSFWorkbook();
+		Sheet sh = book.createSheet("First sheet");
 		
-		File files = getFiles("C:/Users/Saerath/workspace/ExcelExercise/src/resources/");
-		ArrayList<String> pathsList = new ArrayList<String>(getDataFromFiles(files));
-		
-		for (String p : pathsList) {
-			System.out.println(p);
-		}
+		createHeader(sh);
+		addRow(sh);
 
 		return book;
 	}
 
-	//Method creates header row with columns names
-	private void createHeader(Workbook book) {
-		Sheet sh = book.createSheet("First sheet");
+	// Method creates header row with columns names
+	private void createHeader(Sheet sh) {
 
 		Row headerRow = sh.createRow(0);
 
@@ -33,31 +35,42 @@ public class TableCreator {
 			i++;
 		}
 	}
-	
-	private File getFiles(String dirPath){
+
+	//getting files from dirPath
+	private File getFiles(String dirPath) {
 		File files = new File(dirPath);
-		
 		return files;
 	}
 
-	//get data from file. Path - full path
-	private ArrayList<String> getDataFromFiles(File files) {
+	// get data from file. Path - full path
+	private void getDataFromFiles(File files) {
 
-		ArrayList<String> dataList = new ArrayList<String>();
-		
 		for (File f : files.listFiles()) {
+			//adding new ArrayList to map
+			listMap.put(f.getName(), new ArrayList<String>());
 			try {
-				FileInputStream fstream = new FileInputStream(f.getAbsolutePath());
-				BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+				FileInputStream fstream = new FileInputStream(
+						f.getAbsolutePath());
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						fstream));
 				String strLine;
 				while ((strLine = br.readLine()) != null) {
-					dataList.add(strLine);
+					listMap.get(f.getName()).add(strLine);
 				}
 			} catch (IOException e) {
 				System.out.println("Ошибка");
 			}
 		}
-		
-		return dataList;
+
 	}
+	
+	private void addRow(Sheet sh){
+		
+		File files = getFiles(RESOURCES_DIR);
+		getDataFromFiles(files);
+		
+		System.out.println(sh.getLastRowNum());
+		
+	}
+
 }
