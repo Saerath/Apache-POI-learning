@@ -10,10 +10,10 @@ public class TableCreator {
 
 		createHeader(book);
 
-		ArrayList<String> pathsList = new ArrayList<String>(getPaths("C:/Users/Saerath/workspace/ExcelExercise/src/resources/"));
+		ArrayList<String> pathsList = new ArrayList<String>(getDataFromFiles("C:/Users/Saerath/workspace/ExcelExercise/src/resources/"));
 		
 		for (String p : pathsList) {
-			System.out.println(getDataFromFile(p));
+			System.out.println(p);
 		}
 
 		return book;
@@ -32,33 +32,23 @@ public class TableCreator {
 		}
 	}
 
-	//get full path from dirPath and create ArrayList
-	private ArrayList<String> getPaths(String dirPath) {
-
-		ArrayList<String> pathList = new ArrayList<String>();
-
-		File resDir = new File(dirPath);
-		for (String s : resDir.list()) {
-			pathList.add(dirPath + s);
-		}
-
-		return pathList;
-	}
-
 	//get data from file. Path - full path
-	private ArrayList<String> getDataFromFile(String path) {
+	private ArrayList<String> getDataFromFiles(String dirPath) {
 
+		File files = new File(dirPath);
 		ArrayList<String> dataList = new ArrayList<String>();
 		
-		try {
-			FileInputStream fstream = new FileInputStream(path);
-			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
-			String strLine;
-			while ((strLine = br.readLine()) != null) {
-				dataList.add(strLine);
+		for (File f : files.listFiles()) {
+			try {
+				FileInputStream fstream = new FileInputStream(f.getAbsolutePath());
+				BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+				String strLine;
+				while ((strLine = br.readLine()) != null) {
+					dataList.add(strLine);
+				}
+			} catch (IOException e) {
+				System.out.println("Ошибка");
 			}
-		} catch (IOException e) {
-			System.out.println("Ошибка");
 		}
 		
 		return dataList;
