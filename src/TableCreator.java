@@ -32,6 +32,7 @@ public class TableCreator {
 		}
 	}
 
+	//get full path from dirPath and create ArrayList
 	private ArrayList<String> getPaths(String dirPath) {
 
 		ArrayList<String> pathList = new ArrayList<String>();
@@ -44,6 +45,7 @@ public class TableCreator {
 		return pathList;
 	}
 
+	//get data from file. Path - full path
 	private ArrayList<String> getDataFromFile(String path) {
 
 		ArrayList<String> dataList = new ArrayList<String>();
