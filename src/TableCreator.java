@@ -69,7 +69,31 @@ public class TableCreator {
 		File files = getFiles(RESOURCES_DIR);
 		getDataFromFiles(files);
 		
-		System.out.println(sh.getLastRowNum());
+		//row index
+		int rowIndex = 0;
+		
+		Row row = sh.createRow(rowIndex+1);
+		
+		for (File f : files.listFiles()) {
+			if ((f.getName().equals(EnumResources.FIRST_NAMES_F.getNameRes()))||(f.getName().equals(EnumResources.FIRST_NAMES_M.getNameRes()))) {
+				Cell cell = row.createCell(0);
+				cell.setCellValue(listMap.get(f.getName()).get(rowIndex));
+			}else if ((f.getName().equals(EnumResources.SECOND_NAMES_F.getNameRes()))||(f.getName().equals(EnumResources.SECOND_NAMES_M.getNameRes()))) {
+				Cell cell = row.createCell(1);
+				cell.setCellValue(listMap.get(f.getName()).get(rowIndex));
+			}else if (f.getName().equals(EnumResources.PATRONYMIC_F.getNameRes())||(f.getName().equals(EnumResources.PATRONYMIC_M.getNameRes()))) {
+				Cell cell = row.createCell(2);
+				cell.setCellValue(listMap.get(f.getName()).get(rowIndex));
+			}else if (f.getName().equals(EnumResources.CITIES.getNameRes())) {
+				Cell cell = row.createCell(10);
+				cell.setCellValue(listMap.get(f.getName()).get(rowIndex));
+			} else {
+
+			}
+			
+		}
+			
+		
 		
 	}
 

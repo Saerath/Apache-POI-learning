@@ -22,5 +22,7 @@ public enum EnumResources {
 	public String getNameRes(){
 		return nameRes;
 	}
+	
+	
 
 }
