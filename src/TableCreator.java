@@ -9,17 +9,21 @@ public class TableCreator {
 		Workbook book = new HSSFWorkbook();
 
 		createHeader(book);
+
+		ArrayList<String> pathsList = new ArrayList<String>(getPaths("C:/Users/Saerath/workspace/ExcelExercise/src/resources/"));
 		
-		System.out.println(getPaths("C:/Users/Saerath/workspace/ExcelExercise/src/resources/"));
+		for (String p : pathsList) {
+			System.out.println(getDataFromFile(p));
+		}
 
 		return book;
 	}
-	
-	private void createHeader(Workbook book){
+
+	private void createHeader(Workbook book) {
 		Sheet sh = book.createSheet("First sheet");
-		
+
 		Row headerRow = sh.createRow(0);
-		
+
 		int i = 0;
 		for (EnumColumns e : EnumColumns.values()) {
 			Cell cell = headerRow.createCell(i);
@@ -27,16 +31,34 @@ public class TableCreator {
 			i++;
 		}
 	}
-	
-	private ArrayList<String> getPaths(String dirPath){
-		
+
+	private ArrayList<String> getPaths(String dirPath) {
+
 		ArrayList<String> pathList = new ArrayList<String>();
-		
+
 		File resDir = new File(dirPath);
 		for (String s : resDir.list()) {
 			pathList.add(dirPath + s);
 		}
-		
+
 		return pathList;
+	}
+
+	private ArrayList<String> getDataFromFile(String path) {
+
+		ArrayList<String> dataList = new ArrayList<String>();
+		
+		try {
+			FileInputStream fstream = new FileInputStream(path);
+			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+			String strLine;
+			while ((strLine = br.readLine()) != null) {
+				dataList.add(strLine);
+			}
+		} catch (IOException e) {
+			System.out.println("Ошибка");
+		}
+		
+		return dataList;
 	}
 }
